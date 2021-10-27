@@ -1,0 +1,36 @@
+{
+  "name": "editorjs-code",
+  "version": "1.0.0",
+  "description": "a code for editorjs",
+  "keywords": [
+    "editorjs",
+    "code"
+  ],
+  "author": "lookenghua <lookenghua@gmail.com>",
+  "homepage": "https://github.com/lookenghua/editorjs-vue#readme",
+  "license": "MIT",
+  "main": "lib/editorjs-code.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "http://localhost:6604/repository/npm/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lookenghua/editorjs-vue.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/lookenghua/editorjs-vue/issues"
+  },
+  "devDependencies": {
+    "vite": "^2.6.12"
+  }
+}

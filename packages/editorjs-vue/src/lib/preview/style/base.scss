@@ -1,0 +1,161 @@
+.preview-body {
+  margin: 0 auto;
+  padding: 16px 4%;
+  word-wrap: break-word;
+  line-height: 1.75;
+  font-weight: 400;
+  font-size: 15px;
+  overflow-x: hidden;
+  color: #333;
+  box-sizing: border-box;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    line-height: 1.5;
+    margin-top: 35px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+  }
+
+  h1 {
+    font-size: 30px;
+    margin-bottom: 5px;
+  }
+
+  h2 {
+    padding-bottom: 12px;
+    font-size: 24px;
+    border-bottom: 1px solid #ececec
+  }
+
+  h3 {
+    font-size: 18px;
+    padding-bottom: 0;
+  }
+
+  h4 {
+    font-size: 16px;
+  }
+
+  h5 {
+    font-size: 15px;
+  }
+
+  h6 {
+    margin-top: 5px;
+  }
+
+  p {
+    line-height: inherit;
+    margin-top: 22px;
+    margin-bottom: 22px;
+  }
+
+  blockquote {
+    color: #666;
+    padding: 1px 23px;
+    margin: 22px 0;
+    border-left: 4px solid #cbcbcb;
+    background-color: #f8f8f8;
+
+    &:after {
+      display: block;
+      content: "";
+    }
+
+    & > p {
+      margin: 10px 0;
+    }
+  }
+
+  a {
+    text-decoration: none;
+    color: #0269c8;
+    border-bottom: 1px solid #d1e9ff;
+
+    &:active, &:hover {
+      color: #275b8c;
+    }
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin-top: 32px;
+    margin-bottom: 32px
+  }
+
+  table {
+    display: inline-block !important;
+    font-size: 12px;
+    width: auto;
+    max-width: 100%;
+    overflow: auto;
+    border: 1px solid #f6f6f6;
+  }
+
+  thead {
+    background: #f6f6f6;
+    color: #000;
+    text-align: left;
+  }
+
+  td, th {
+    padding: 12px 7px;
+    line-height: 24px
+  }
+
+  > ol, ul {
+    padding: 0!important;
+  }
+
+  ol {
+    list-style: none;
+    counter-reset: list;
+
+    li:before {
+      counter-increment: list;
+      content: counters(list, ".") ". ";
+      margin-right:5px;
+    }
+  }
+
+  ul{
+    list-style: none;
+
+    li:before{
+      content: "•";
+      margin-right:5px;
+    }
+  }
+
+
+  ol, ul {
+    padding-left: 28px;
+
+    ul, ol {
+      margin-top: 3px;
+    }
+
+    li {
+      margin-bottom: 0;
+      list-style: inherit;
+      line-height: 1.6em;
+      margin: 2px 0;
+    }
+  }
+
+  .task-list{
+    li:before{
+      content: none
+    }
+  }
+  .footnotes{
+    li:before{
+      content: none
+    }
+  }
+}

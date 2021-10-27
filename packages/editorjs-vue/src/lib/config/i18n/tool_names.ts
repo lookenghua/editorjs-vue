@@ -1,0 +1,22 @@
+const toolNames = {
+  Text: '文字',
+  Heading: '标题',
+  List: '列表',
+  Warning: '警告',
+  Checklist: '待办',
+  Quote: '引用',
+  Code: '代码',
+  Delimiter: '分隔符',
+  'Raw HTML': 'HTML代码',
+  Table: '表格',
+  Link: '链接',
+  Marker: '标记',
+  Bold: '加粗',
+  Italic: '斜体',
+  InlineCode: '行内代码',
+  Attaches: '附件',
+  Image: '图片',
+  Underline: '下划线',
+  Footnote: '角标',
+}
+export default toolNames
