@@ -1,0 +1,12 @@
+.git/
+.idea/
+.vscode/
+packages/
+node_modules/
+public/
+lib/
+.eslintrc.js
+publish.bat
+tsconfig.json
+vite.config.ts
+yarn.lock

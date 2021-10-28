@@ -1,0 +1,33 @@
+.cdx-code__tip{
+    padding-top:10px;
+    color: #707684;
+    font-size: 15px;
+    margin-bottom:6px;
+}
+.cdx-code__tip select{
+    outline:none;
+    margin-left: 5px;
+}
+.cdx-code__textarea{
+    box-sizing: border-box;
+    width: 100%;
+    outline: none;
+    min-height: 200px;
+    font-family: Menlo, Monaco, Consolas, Courier New, monospace;
+    color: #41314e;
+    line-height: 1.6em;
+    font-size: 12px;
+    background: #f8f7fa;
+    border: 1px solid #f1f1f4;
+    box-shadow: none;
+    white-space: pre;
+    word-wrap: normal;
+    overflow-x: auto;
+    resize: vertical;
+    padding:12px 16px;
+}
+.cdx-code__textarea::-webkit-input-placeholder{
+    color: #707684;
+    font-weight: normal;
+}
+
