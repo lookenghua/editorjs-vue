@@ -6,7 +6,6 @@
   ],
   "main": "./dist/editorjs.umd.js",
   "module": "./dist/editorjs.es.js",
-  "private": true,
   "workspaces": [
     "packages/*"
   ],
