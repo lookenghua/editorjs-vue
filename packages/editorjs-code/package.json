@@ -25,7 +25,7 @@
     "lib"
   ],
   "publishConfig": {
-    "registry": "http://localhost:6604/repository/npm/"
+    "registry": "https://registry.npmjs.org/"
   },
   "repository": {
     "type": "git",
@@ -45,5 +45,6 @@
   "dependencies": {
     "@editorjs/editorjs": "^2.22.2",
     "vite-plugin-dts": "^0.9.2"
-  }
+  },
+  "gitHead": "7757bf7344bc87bcb5a90bdfe44f17f9043c9cef"
 }
