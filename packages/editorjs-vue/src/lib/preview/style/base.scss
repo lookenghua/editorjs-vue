@@ -109,7 +109,7 @@
   }
 
   > ol, ul {
-    padding: 0!important;
+    padding: 0 !important;
   }
 
   ol {
@@ -119,16 +119,16 @@
     li:before {
       counter-increment: list;
       content: counters(list, ".") ". ";
-      margin-right:5px;
+      margin-right: 5px;
     }
   }
 
-  ul{
+  ul {
     list-style: none;
 
-    li:before{
+    li:before {
       content: "•";
-      margin-right:5px;
+      margin-right: 5px;
     }
   }
 
@@ -148,14 +148,32 @@
     }
   }
 
-  .task-list{
-    li:before{
+  .task-list {
+    li:before {
       content: none
     }
   }
-  .footnotes{
-    li:before{
+
+  .footnotes {
+    li:before {
       content: none
     }
+  }
+
+  pre {
+    line-height: 0!important;
+    white-space: pre-wrap;
+  }
+
+  pre > code {
+    background: #f8f8f8;
+    white-space: pre-wrap;
+    font-size: 12px;
+    padding: 15px 12px;
+    margin: 0;
+    word-break: normal;
+    display: block;
+    overflow-x: auto;
+    margin: 0;
   }
 }

@@ -8,6 +8,9 @@ export default {
     toolNames,
     tools,
     blockTunes: {
+      footnote: {
+        Footnote: '引用',
+      },
       delete: {
         Delete: '删除',
       },

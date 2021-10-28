@@ -24,4 +24,8 @@ export default {
     'Stretch image': '拉伸到屏幕宽度',
     'With background': '显示背景',
   },
+  code: {
+    'Please Select Code Language:': '选择代码语言:',
+    'Please Enter Code!': '请输入代码',
+  },
 }

@@ -44,6 +44,12 @@
         :alignment="item.data.alignment"
       />
       <Image v-else-if="item.type === 'image'" :id="item.id" :info="item" />
+      <Code
+        v-else-if="item.type === 'code'"
+        :id="item.id"
+        :code="item.data.code"
+        :language="item.data.language"
+      />
     </template>
     <Footnotes :data="blocks" />
   </div>
@@ -55,6 +61,7 @@
   import { computed } from 'vue'
   import Attaches from './blocks/attaches.vue'
   import Checklist from './blocks/checklist.vue'
+  import Code from './blocks/code.vue'
   import Delimiter from './blocks/delimiter.vue'
   import Footnotes from './blocks/footnotes.vue'
   import Header from './blocks/header.vue'

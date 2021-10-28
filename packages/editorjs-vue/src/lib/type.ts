@@ -15,6 +15,7 @@ export type Block =
   | QuoteBlock
   | ImageBlock
   | AttachesBlock
+  | CodeBlock
 interface BaseBlock {
   id: string
   type: string
@@ -130,5 +131,13 @@ export interface AttachesBlock extends BaseBlock {
       extension: string
     }
     title: string
+  }
+}
+export interface CodeBlock extends BaseBlock {
+  id: string
+  type: 'code'
+  data: {
+    code: string
+    language: string
   }
 }

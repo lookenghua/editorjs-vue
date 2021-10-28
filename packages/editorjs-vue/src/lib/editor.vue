@@ -4,7 +4,7 @@
       <div ref="editorRef" class="editor"></div>
     </div>
     <div class="editor-preview flex-1 border-l p-8">
-      <VHTMLPreview :data="editorData" />
+      <VHTMLPreview ref="previewRef" :data="editorData" />
     </div>
   </div>
 </template>
@@ -48,7 +48,12 @@
   })
   const emit = defineEmits(['change'])
 
+  defineExpose({
+    getHTML,
+  })
+
   let editorRef = $ref<HTMLElement | null>(null)
+  let previewRef = $ref<HTMLElement | null>(null)
   let editor: EditorJS
   let editorData = $ref({})
 
@@ -65,6 +70,10 @@
       console.log(JSON.stringify(data))
       editorData = data
     })
+  }
+
+  function getHTML() {
+    return previewRef!.innerHTML
   }
   onMounted(() => {
     editor = new EditorJS({
@@ -166,6 +175,8 @@
             },
           },
         },
+        // 代码
+        code: Code,
       },
       data: props.data,
       i18n: i18nConf,

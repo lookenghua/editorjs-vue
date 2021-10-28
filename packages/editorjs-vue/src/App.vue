@@ -3,7 +3,7 @@
   import Editor from './lib/editor.vue'
 
   const data: EditorData = {
-    time: 1635246351027,
+    time: 1635408432896,
     blocks: [
       {
         id: 'gutX5SP5MR',
@@ -150,6 +150,8 @@
           withBackground: false,
         },
       },
+      { id: 'qa5BrV4DpI', type: 'code', data: { code: 'const a = 1;', language: 'javascript' } },
+      { id: 'qa5BrV5DpI', type: 'code', data: { code: '.code{width:"100%"}', language: 'css' } },
     ],
     version: '2.22.2',
   }
