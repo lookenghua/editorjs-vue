@@ -7,8 +7,6 @@ style.innerText = css
 document.head.append(style)
 
 import { API, BlockAPI, BlockTool } from '@editorjs/editorjs'
-import { Block } from 'editorjs-vue/src/lib/type'
-import language from './language'
 
 export interface CodeToolData {
   code: string
