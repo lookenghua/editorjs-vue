@@ -16,7 +16,7 @@ export default ({ command }: ConfigEnv): UserConfigExport => ({
   },
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/main.ts'),
+      entry: resolve(__dirname, 'src/lib/index.ts'),
       name: 'editorjs',
       fileName: (format) => `editorjs.${format}.js`,
     },
