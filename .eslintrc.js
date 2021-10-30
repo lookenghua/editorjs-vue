@@ -20,7 +20,7 @@ module.exports = defineConfig({
     $ref: true,
   },
   extends: ['plugin:vue/vue3-recommended', 'prettier', 'plugin:prettier/recommended'],
-  ignorePatterns: ['*.js'],
+  ignorePatterns: ['*.js', '**/dist/*'],
   plugins: ['import', 'sort-imports-es6-autofix'],
   rules: {
     'vue/script-setup-uses-vars': 'error',

@@ -1,14 +1,12 @@
 {
   "name": "editorjs-vue",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "files": [
     "dist"
   ],
   "main": "./dist/editorjs.umd.js",
   "module": "./dist/editorjs.es.js",
-  "workspaces": [
-    "packages/*"
-  ],
+  "types": "./dist/index.d.ts",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
