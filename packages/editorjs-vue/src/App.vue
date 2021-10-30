@@ -1,6 +1,6 @@
 <script setup lang="ts">
+  import { Editor } from './lib'
   import { EditorData, UploadImagesFunc } from './lib/type'
-  import Editor from './lib/editor.vue'
 
   const data: EditorData = {
     time: 1635408432896,
