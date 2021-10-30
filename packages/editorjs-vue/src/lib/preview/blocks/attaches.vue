@@ -33,7 +33,11 @@
     </a>
   </div>
 </template>
+<script lang="ts">
+  import { defineComponent } from 'vue'
 
+  export default defineComponent({ name: 'AttachesBlock' })
+</script>
 <script setup lang="ts">
   import { formatBytes } from '../../utils/util'
   import { toRefs } from 'vue'

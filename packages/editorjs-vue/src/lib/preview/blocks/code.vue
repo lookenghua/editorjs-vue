@@ -3,7 +3,11 @@
     <code :class="`language-${language}`" v-html="html"></code>
   </pre>
 </template>
+<script lang="ts">
+  import { defineComponent } from 'vue'
 
+  export default defineComponent({ name: 'CodeBlock' })
+</script>
 <script setup lang="ts">
   import './css/prism.css'
   import { onMounted, watchEffect } from 'vue'

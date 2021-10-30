@@ -8,7 +8,11 @@
     </div>
   </div>
 </template>
+<script lang="ts">
+  import { defineComponent } from 'vue'
 
+  export default defineComponent({ name: 'Editor' })
+</script>
 <script setup lang="ts">
   import './config/tools/attaches.scss'
   import { EditorData, uploadAttachesFunc, UploadImagesFunc } from './type'

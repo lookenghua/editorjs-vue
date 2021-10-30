@@ -6,7 +6,11 @@
   <h5 v-else-if="level === 5">{{ title }}</h5>
   <h6 v-else>{{ title }}</h6>
 </template>
+<script lang="ts">
+  import { defineComponent } from 'vue'
 
+  export default defineComponent({ name: 'HeaderBlock' })
+</script>
 <script setup lang="ts">
   import { toRefs } from 'vue'
 

@@ -8,7 +8,11 @@
     </li>
   </component>
 </template>
+<script lang="ts">
+  import { defineComponent } from 'vue'
 
+  export default defineComponent({ name: 'ListBlock' })
+</script>
 <script setup lang="ts">
   import { ListItem } from '../../type'
   import List from '../blocks/list.vue'

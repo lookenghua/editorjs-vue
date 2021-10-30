@@ -54,7 +54,11 @@
     <Footnotes :data="blocks" />
   </div>
 </template>
+<script lang="ts">
+  import { defineComponent } from 'vue'
 
+  export default defineComponent({ name: 'Viewer' })
+</script>
 <script setup lang="ts">
   import './style/base.scss'
   import { Block, EditorData } from '../type'

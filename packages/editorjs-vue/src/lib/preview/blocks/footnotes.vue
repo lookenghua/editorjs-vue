@@ -5,7 +5,11 @@
     >
   </ul>
 </template>
+<script lang="ts">
+  import { defineComponent } from 'vue'
 
+  export default defineComponent({ name: 'FootnotesBlock' })
+</script>
 <script setup lang="ts">
   import { Block, Footnotes } from '../../type'
   import { watch } from 'vue'

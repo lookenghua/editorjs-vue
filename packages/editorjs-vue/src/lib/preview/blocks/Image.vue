@@ -1,7 +1,11 @@
 <template>
   <img :src="props.info.data.file.url" :alt="props.info.data.caption" :style="style" />
 </template>
+<script lang="ts">
+  import { defineComponent } from 'vue'
 
+  export default defineComponent({ name: 'ImageBlock' })
+</script>
 <script setup lang="ts">
   import { computed, CSSProperties } from 'vue'
   import { ImageBlock } from '../../type'
