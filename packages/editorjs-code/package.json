@@ -1,6 +1,6 @@
 {
   "name": "editorjs-code",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "a code for editorjs",
   "keywords": [
     "editorjs",
@@ -11,13 +11,13 @@
   "license": "MIT",
   "main": "./lib/index.ts",
   "module": "./dist/editorjs.code.es.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/editorjs.code.es.js",
       "require": "./dist/editorjs.code.umd.js"
     }
   },
-  "types": "lib/index.ts",
   "directories": {
     "lib": "lib"
   },
