@@ -10,15 +10,9 @@
 <script setup lang="ts">
   import { toRefs } from 'vue'
 
-  const props = defineProps({
-    title: {
-      type: String,
-      default: '',
-    },
-    level: {
-      type: Number,
-      default: 6,
-    },
+  const props = withDefaults(defineProps<{ title: string; level: number }>(), {
+    title: '',
+    level: 6,
   })
   const { title, level } = toRefs(props)
 </script>

@@ -11,18 +11,11 @@
 
 <script setup lang="ts">
   import { ListItem } from '../../type'
-  import { PropType } from 'vue'
   import List from '../blocks/list.vue'
 
-  const props = defineProps({
-    style: {
-      type: String,
-      default: 'ordered',
-    },
-    data: {
-      type: Array as PropType<ListItem[]>,
-      default: () => [],
-    },
+  const props = withDefaults(defineProps<{ style: string; data: ListItem[] }>(), {
+    style: 'ordered',
+    data: () => [],
   })
 </script>
 

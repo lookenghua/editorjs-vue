@@ -38,24 +38,10 @@
   import { formatBytes } from '../../utils/util'
   import { toRefs } from 'vue'
 
-  const props = defineProps({
-    name: {
-      type: String,
-      default: '',
-    },
-    size: {
-      type: Number,
-      default: 0,
-    },
-    url: {
-      type: String,
-      default: '',
-    },
-    extension: {
-      type: String,
-      default: '',
-    },
-  })
+  const props = withDefaults(
+    defineProps<{ name: string; size: number; url: string; extension?: string }>(),
+    { numbers: '', size: 0, url: '', extension: '' }
+  )
   const { name, size, url, extension } = toRefs(props)
 </script>
 

@@ -57,7 +57,7 @@
 
 <script setup lang="ts">
   import './style/base.scss'
-  import { Block } from '../type'
+  import { Block, EditorData } from '../type'
   import { computed } from 'vue'
   import Attaches from './blocks/attaches.vue'
   import Checklist from './blocks/checklist.vue'
@@ -72,12 +72,7 @@
   import Table from './blocks/table.vue'
   import Warning from './blocks/warning.vue'
 
-  const props = defineProps({
-    data: {
-      type: Object,
-      default: () => ({}),
-    },
-  })
+  const props = withDefaults(defineProps<{ data: EditorData }>(), {})
   const blocks = computed<Block[]>(() => props.data.blocks || [])
 </script>
 

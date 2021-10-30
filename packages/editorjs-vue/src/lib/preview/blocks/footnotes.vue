@@ -8,13 +8,10 @@
 
 <script setup lang="ts">
   import { Block, Footnotes } from '../../type'
-  import { PropType, watch } from 'vue'
+  import { watch } from 'vue'
 
-  const props = defineProps({
-    data: {
-      type: Array as PropType<Block[]>,
-      default: () => [],
-    },
+  const props = withDefaults(defineProps<{ data: Block[] }>(), {
+    data: () => [],
   })
 
   let list: Footnotes[] = $ref([])

@@ -101,6 +101,10 @@ export interface QuoteBlock extends BaseBlock {
     alignment: 'left' | 'center'
   }
 }
+export interface uploadAttachesFunc {
+  // eslint-disable-next-line no-unused-vars
+  (file: File | string): Promise<{ success: number; file: { url: string } }>
+}
 export interface UploadImagesFunc {
   // eslint-disable-next-line no-unused-vars
   (type: string, file: File | string): Promise<{ success: number; file: { url: string } }>

@@ -14,17 +14,11 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, PropType } from 'vue'
+  import { computed } from 'vue'
 
-  const props = defineProps({
-    withHeadings: {
-      type: Boolean,
-      default: false,
-    },
-    content: {
-      type: Array as PropType<string[][]>,
-      default: () => [],
-    },
+  const props = withDefaults(defineProps<{ withHeadings: boolean; content: string[][] }>(), {
+    withHeadings: false,
+    content: () => [],
   })
   const headerList = computed(() =>
     props.withHeadings ? props.content?.filter((it, i) => i === 0) : []

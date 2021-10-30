@@ -3,15 +3,10 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, CSSProperties, PropType } from 'vue'
+  import { computed, CSSProperties } from 'vue'
   import { ImageBlock } from '../../type'
 
-  const props = defineProps({
-    info: {
-      type: Object as PropType<ImageBlock>,
-      required: true,
-    },
-  })
+  const props = defineProps<{ info: ImageBlock }>()
   const style = computed<CSSProperties>(() => {
     return {
       maxWidth: '100%',

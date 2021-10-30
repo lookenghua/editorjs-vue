@@ -3,12 +3,7 @@
 </template>
 
 <script setup lang="ts">
-  const props = defineProps({
-    text: {
-      type: String,
-      default: '',
-    },
-  })
+  const props = withDefaults(defineProps<{ text: string }>(), { text: '' })
 </script>
 
 <style scoped></style>

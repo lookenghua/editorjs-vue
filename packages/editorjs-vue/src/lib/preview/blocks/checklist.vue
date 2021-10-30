@@ -8,14 +8,8 @@
 
 <script setup lang="ts">
   import { ChecklisItem } from '../../type'
-  import { PropType } from 'vue'
 
-  const props = defineProps({
-    data: {
-      type: Array as PropType<ChecklisItem[]>,
-      default: () => [],
-    },
-  })
+  const props = withDefaults(defineProps<{ data: ChecklisItem[] }>(), { data: () => [] })
 </script>
 
 <style scoped></style>

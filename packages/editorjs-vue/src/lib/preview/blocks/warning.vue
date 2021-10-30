@@ -8,15 +8,9 @@
 <script setup lang="ts">
   import { CSSProperties } from 'vue'
 
-  const props = defineProps({
-    title: {
-      type: String,
-      default: '',
-    },
-    message: {
-      type: String,
-      default: '',
-    },
+  const props = withDefaults(defineProps<{ title: string; message: string }>(), {
+    title: '',
+    message: '',
   })
   const styles: Record<string, CSSProperties> = {
     warning: {

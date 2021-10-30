@@ -9,15 +9,9 @@
   import { onMounted, watchEffect } from 'vue'
   import Prism from 'prismjs'
 
-  const props = defineProps({
-    code: {
-      type: String,
-      default: '',
-    },
-    language: {
-      type: String,
-      default: '',
-    },
+  const props = withDefaults(defineProps<{ code: string; language: string }>(), {
+    code: '',
+    language: '',
   })
   const config: Record<string, string> = {
     bash: 'bash',

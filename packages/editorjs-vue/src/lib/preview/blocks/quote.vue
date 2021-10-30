@@ -6,19 +6,10 @@
 </template>
 
 <script setup lang="ts">
-  const props = defineProps({
-    text: {
-      type: String,
-      default: '',
-    },
-    caption: {
-      type: String,
-      default: '',
-    },
-    alignment: {
-      type: String,
-      default: 'left',
-    },
+  const props = withDefaults(defineProps<{ text: string; caption: string; alignment: string }>(), {
+    text: '',
+    caption: '',
+    alignment: 'left',
   })
 </script>
 
