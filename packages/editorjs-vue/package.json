@@ -74,5 +74,6 @@
     "vite-plugin-mock": "^2.9.6",
     "vue-eslint-parser": "^7.10.0",
     "vue-tsc": "^0.3.0"
-  }
+  },
+  "gitHead": "451c3f4cca0107ffa7470268abe6ffc661d02d0f"
 }
