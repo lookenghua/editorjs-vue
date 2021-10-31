@@ -51,7 +51,7 @@
         :language="item.data.language"
       />
     </template>
-    <Footnotes :data="blocks" />
+    <Footnotes v-if="blocks.length > 0" :data="blocks" />
   </div>
 </template>
 <script lang="ts">

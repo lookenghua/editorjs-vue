@@ -2,6 +2,7 @@ import { ConfigEnv, UserConfigExport } from 'vite'
 import { resolve } from 'path'
 import { viteMockServe } from 'vite-plugin-mock'
 import dts from 'vite-plugin-dts'
+import libInjectCss from './build/libInjectCss'
 import vue from '@vitejs/plugin-vue'
 
 export default ({ command }: ConfigEnv): UserConfigExport => ({
@@ -16,6 +17,7 @@ export default ({ command }: ConfigEnv): UserConfigExport => ({
       insertTypesEntry: true,
       cleanVueFileName: true,
     }),
+    libInjectCss(),
   ],
   server: {
     port: 6606,

@@ -35,8 +35,6 @@
     },
     { immediate: true }
   )
-
-  console.log(list)
 </script>
 
 <style scoped></style>

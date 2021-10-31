@@ -79,3 +79,11 @@ declare module '@editorjs/image' {
   const tool: ToolConstructable
   export default tool
 }
+declare module 'style-inject' {
+  interface StyleInject {
+    // eslint-disable-next-line no-unused-vars
+    (css: string): void
+  }
+  const tool: StyleInject
+  export default tool
+}
