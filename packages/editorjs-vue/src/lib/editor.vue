@@ -1,10 +1,24 @@
 <template>
   <div class="editor-area">
-    <div class="editor-body">
-      <div ref="editorRef" class="editor"></div>
+    <Toolbar @method="handleMethod" />
+    <div class="body">
+      <div class="editor-body">
+        <Scroll>
+          <div ref="editorRef" class="editor"></div>
+        </Scroll>
+      </div>
+      <div class="editor-preview">
+        <VHTMLPreview :data="editorData" />
+      </div>
     </div>
-    <div class="editor-preview">
-      <VHTMLPreview :data="editorData" />
+    <div class="footer">
+      <span>字数:0 &emsp;行数:1</span>
+      <div style="display: flex; align-items: center">
+        <input type="checkbox" class="checkbox" />
+        <span class="text1">同步滚动</span>
+        &emsp;
+        <span class="text2">回到顶部</span>
+      </div>
     </div>
   </div>
 </template>
@@ -15,13 +29,13 @@
 </script>
 <script setup lang="ts">
   import './config/tools/attaches.scss'
+  import { createApp, onMounted, watch } from 'vue'
   import { EditorData, uploadAttachesFunc, UploadImagesFunc } from './type'
-  import { onMounted, watch } from 'vue'
   import AttachesTool from '@editorjs/attaches'
   import Checklist from '@editorjs/checklist'
   import Code from 'editorjs-code'
   import Delimiter from '@editorjs/delimiter'
-  import EditorJS from '@editorjs/editorjs'
+  import EditorJS, { OutputData } from '@editorjs/editorjs'
   import FootnotesTune from '@editorjs/footnotes'
   import Header from '@editorjs/header'
   import i18nConf from './config/i18n'
@@ -30,7 +44,9 @@
   import NestedList from '@editorjs/nested-list'
   import Paragraph from '@editorjs/paragraph'
   import Quote from '@editorjs/quote'
+  import Scroll from './components/Scroll.vue'
   import Table from '@editorjs/table'
+  import Toolbar from './components/Toolbar.vue'
   import Underline from '@editorjs/underline'
   import VHTMLPreview from './preview/VHTMLPreview.vue'
   import Warning from '@editorjs/warning'
@@ -48,11 +64,13 @@
 
   const emit = defineEmits(['change'])
 
-  defineExpose({})
+  defineExpose({
+    getOuterHTML,
+  })
 
   let editorRef = $ref<HTMLElement | null>(null)
   let editor: EditorJS
-  let editorData = $ref({})
+  let editorData = $ref<OutputData>({ version: '2.22.2', time: new Date().getTime(), blocks: [] })
 
   watch(
     () => editorData,
@@ -62,11 +80,62 @@
     { deep: true, immediate: true }
   )
 
+  // 保存数据
   function saveData() {
     editor.save().then((data) => {
-      console.log(JSON.stringify(data))
+      console.log(JSON.stringify(data), data)
       editorData = data
     })
+  }
+
+  // 获取渲染后的html
+  function getOuterHTML(): string {
+    const div = document.createElement('div')
+    const app = createApp(VHTMLPreview, { data: editorData })
+    return app.mount(div).$el.outerHTML
+  }
+
+  // 点击工具栏
+  function handleMethod(method: string) {
+    const count = editorData.blocks.length | 0
+    const currentBlockIndex = editor?.blocks.getCurrentBlockIndex()
+    const insertIndex = currentBlockIndex < 0 ? (count > 0 ? count : 0) : currentBlockIndex
+    if (method === 'quote') {
+      // 引用
+      editor?.blocks.insert('quote', { text: '', caption: '' }, null, insertIndex, true)
+    } else if (method === 'separator') {
+      // 分割线
+      editor?.blocks.insert('delimiter', {}, null, insertIndex, false)
+    } else if (method === 'code') {
+      // 代码
+      editor?.blocks.insert('code', { code: '', language: 'javascript' }, null, insertIndex, true)
+    } else if (method === 'image') {
+      // 图片
+      editor?.blocks.insert('image', {}, null, insertIndex, true)
+    } else if (method === 'attachment') {
+      // 附件
+      editor?.blocks.insert('attaches', {}, null, insertIndex, true)
+    } else if (method === 'unordered-list') {
+      // 无序列表
+      editor?.blocks.insert('list', { style: 'unordered', items: [] }, null, insertIndex, true)
+    } else if (method === 'ordered-list') {
+      // 有序列表
+      editor?.blocks.insert('list', { style: 'ordered', items: [] }, null, insertIndex, true)
+    } else if (method === 'todo') {
+      // 待办
+      editor?.blocks.insert(
+        'checklist',
+        { items: [{ text: '', checked: '' }] },
+        null,
+        insertIndex,
+        true
+      )
+    } else if (method === 'table') {
+      // 表格
+      editor?.blocks.insert('table', { items: [] }, null, insertIndex, true)
+    }
+    const blocks = editorRef?.querySelectorAll('.ce-block')!
+    blocks[insertIndex - 1].scrollIntoView()
   }
 
   onMounted(() => {
@@ -187,25 +256,47 @@
 
 <style scoped lang="scss">
   .editor-area {
-    display: flex;
-    height: 600px;
     border: 1px solid #ccc;
     box-sizing: border-box;
 
-    .editor-body {
-      flex: 1;
-      height: 100%;
-      overflow-y: auto;
-      padding: 20px 16px;
-      box-sizing: border-box;
+    .body {
+      display: flex;
+      height: 600px;
+
+      .editor-body {
+        flex: 1;
+        height: 100%;
+        overflow-y: auto;
+        padding: 20px 16px;
+        box-sizing: border-box;
+        background-color: #fafbfc;
+      }
+      .editor-preview {
+        flex: 1;
+        height: 100%;
+        overflow-y: auto;
+        border-left: 1px solid #ccc;
+        padding: 20px 16px;
+        box-sizing: border-box;
+      }
     }
-    .editor-preview {
-      flex: 1;
-      height: 100%;
-      overflow-y: auto;
-      border-left: 1px solid #ccc;
-      padding: 20px 16px;
-      box-sizing: border-box;
+
+    .footer {
+      border-top: 1px solid #e1e4e8;
+      padding: 5px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      input[type='checkbox'] {
+        margin: 0;
+      }
+      .text1 {
+        cursor: pointer;
+        margin-left: 5px;
+      }
+      .text2 {
+        cursor: pointer;
+      }
     }
   }
 </style>

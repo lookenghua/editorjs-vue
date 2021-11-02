@@ -1,6 +1,37 @@
 <template>
   <div class="toolbar">
-    <div class="toolbar-icon" v-html="icons.heading"></div>
+    <Popper>
+      <div class="toolbar-icon" v-html="icons.heading"></div>
+      <template #tooltip="{ close }">
+        <div class="heading-list">
+          <div class="heading-item" @click="handleClickHeading(1, close)">
+            <div class="icon" v-html="icons.h1"></div>
+            <div class="name">一级标题</div>
+          </div>
+          <div class="heading-item">
+            <div class="icon" v-html="icons.h2"></div>
+            <div class="name">二级标题</div>
+          </div>
+          <div class="heading-item">
+            <div class="icon" v-html="icons.h3"></div>
+            <div class="name">三级标题</div>
+          </div>
+          <div class="heading-item">
+            <div class="icon" v-html="icons.h4"></div>
+            <div class="name">四级标题</div>
+          </div>
+          <div class="heading-item">
+            <div class="icon" v-html="icons.h5"></div>
+            <div class="name">五级标题</div>
+          </div>
+          <div class="heading-item">
+            <div class="icon" v-html="icons.h6"></div>
+            <div class="name">六级标题</div>
+          </div>
+        </div>
+      </template>
+    </Popper>
+
     <Popper title="引用">
       <div class="toolbar-icon" @click="callMethod('quote')" v-html="icons.doubleQuote"></div>
     </Popper>
@@ -36,7 +67,6 @@
     <Popper title="表格">
       <div class="toolbar-icon" @click="callMethod('table')" v-html="icons.table"></div>
     </Popper>
-
     <div style="flex: 1"></div>
     <Popper title="目录">
       <div class="toolbar-icon" @click="callMethod('contents')" v-html="icons.contents"></div>
@@ -72,6 +102,12 @@
   function callMethod(method: string) {
     emit('method', method)
   }
+
+  // 点击标题
+  function handleClickHeading(level: number, close: Function) {
+    alert('click')
+    close()
+  }
 </script>
 
 <style scoped lang="scss">
@@ -97,6 +133,33 @@
         background-color: #e1e4e8;
       }
       ::v-deep(svg) {
+      }
+    }
+  }
+  .heading-list {
+    background: white;
+    padding: 5px 0;
+    .heading-item {
+      display: flex;
+      align-items: center;
+      padding: 5px 10px;
+      cursor: pointer;
+      pointer-events: initial;
+      &:hover {
+        background: #dbdbe8;
+      }
+      .icon {
+        margin-right: 5px;
+        display: flex;
+        align-items: center;
+        ::v-deep(svg) {
+          width: 18px;
+          height: 18px;
+        }
+      }
+      .name {
+        color: #333;
+        font-size: 16px;
       }
     }
   }
