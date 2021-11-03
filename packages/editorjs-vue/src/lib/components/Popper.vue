@@ -2,7 +2,13 @@
   <div ref="button" aria-describedby="tooltip">
     <slot></slot>
   </div>
-  <div v-if="!slots.tooltip" ref="tooltip" class="tooltip message" role="tooltip">
+  <div
+    v-if="!slots.tooltip"
+    ref="tooltip"
+    class="tooltip message"
+    role="tooltip"
+    :data-popper-placement="props.placement"
+  >
     <div class="arrow" data-popper-arrow></div>
     {{ props.title }}
   </div>
@@ -12,47 +18,61 @@
 </template>
 
 <script setup lang="ts">
-  import { createPopper } from '@popperjs/core'
+  import { createPopper, Placement } from '@popperjs/core'
   import { nextTick, onMounted, useSlots } from 'vue'
 
-  const props = defineProps<{ title?: string }>()
+  const props = withDefaults(defineProps<{ title?: string; placement?: Placement }>(), {
+    placement: 'auto',
+  })
   const slots = useSlots()
   let button = $ref<HTMLElement | null>()
   let tooltip = $ref<HTMLElement | null>()
+  let _timer: ReturnType<typeof setTimeout>
 
   onMounted(() => {
     nextTick(() => {
       const instance = createPopper(button!, tooltip!, {
+        placement: props.placement,
         modifiers: [{ name: 'offset', options: { offset: [0, 0] } }],
       })
 
       function show() {
+        console.log('show')
         tooltip?.setAttribute('data-show', '')
         instance.update() // correctly position
       }
 
       function hide() {
+        console.log('hidden')
         tooltip?.removeAttribute('data-show')
       }
 
       function onMouseenter() {
-        show()
+        clearTimeout(_timer)
+        _timer = setTimeout(() => {
+          show()
+        }, 0)
       }
 
       function onMouseleave() {
-        hide()
+        clearTimeout(_timer)
+        _timer = setTimeout(() => {
+          hide()
+        }, 200)
       }
 
       button?.addEventListener('mouseenter', onMouseenter)
       button?.addEventListener('mouseleave', onMouseleave)
       tooltip?.addEventListener('mouseenter', onMouseenter)
       tooltip?.addEventListener('mouseleave', onMouseleave)
+      tooltip?.addEventListener('click', onMouseleave)
     })
   })
 </script>
 
 <style scoped lang="scss">
   .tooltip {
+    z-index: 9999;
     display: none;
     &.message {
       background: #333;
@@ -83,7 +103,9 @@
     content: '';
     transform: rotate(45deg);
   }
-
+  .tooltip ::v-deep(*) {
+    pointer-events: none;
+  }
   .tooltip[data-popper-placement^='top'] > .arrow {
     bottom: -4px;
   }

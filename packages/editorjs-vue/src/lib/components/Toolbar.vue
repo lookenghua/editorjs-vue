@@ -1,30 +1,30 @@
 <template>
   <div class="toolbar">
-    <Popper>
+    <Popper placement="bottom-start">
       <div class="toolbar-icon" v-html="icons.heading"></div>
-      <template #tooltip="{ close }">
+      <template #tooltip>
         <div class="heading-list">
-          <div class="heading-item" @click="handleClickHeading(1, close)">
+          <div class="heading-item" @click="handleClickHeading(1)">
             <div class="icon" v-html="icons.h1"></div>
             <div class="name">一级标题</div>
           </div>
-          <div class="heading-item">
+          <div class="heading-item" @click="handleClickHeading(2)">
             <div class="icon" v-html="icons.h2"></div>
             <div class="name">二级标题</div>
           </div>
-          <div class="heading-item">
+          <div class="heading-item" @click="handleClickHeading(3)">
             <div class="icon" v-html="icons.h3"></div>
             <div class="name">三级标题</div>
           </div>
-          <div class="heading-item">
+          <div class="heading-item" @click="handleClickHeading(4)">
             <div class="icon" v-html="icons.h4"></div>
             <div class="name">四级标题</div>
           </div>
-          <div class="heading-item">
+          <div class="heading-item" @click="handleClickHeading(5)">
             <div class="icon" v-html="icons.h5"></div>
             <div class="name">五级标题</div>
           </div>
-          <div class="heading-item">
+          <div class="heading-item" @click="handleClickHeading(6)">
             <div class="icon" v-html="icons.h6"></div>
             <div class="name">六级标题</div>
           </div>
@@ -104,9 +104,8 @@
   }
 
   // 点击标题
-  function handleClickHeading(level: number, close: Function) {
-    alert('click')
-    close()
+  function handleClickHeading(level: number) {
+    emit('method', 'heading' + level)
   }
 </script>
 

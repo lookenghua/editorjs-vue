@@ -133,6 +133,9 @@
     } else if (method === 'table') {
       // 表格
       editor?.blocks.insert('table', { items: [] }, null, insertIndex, true)
+    } else if (method.startsWith('heading')) {
+      const level = parseInt(method.replace('heading', ''), 8)
+      editor?.blocks.insert('header', { text: '请输入标题', level }, null, insertIndex, true)
     }
     const blocks = editorRef?.querySelectorAll('.ce-block')!
     blocks[insertIndex - 1].scrollIntoView()
