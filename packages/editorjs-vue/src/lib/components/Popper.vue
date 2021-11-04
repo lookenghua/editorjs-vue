@@ -21,9 +21,19 @@
   import { createPopper, Placement } from '@popperjs/core'
   import { nextTick, onMounted, useSlots } from 'vue'
 
-  const props = withDefaults(defineProps<{ title?: string; placement?: Placement }>(), {
-    placement: 'auto',
-  })
+  const props = withDefaults(
+    defineProps<{
+      title?: string
+      placement?: Placement
+      offset?: number[]
+      closeDelay?: number
+    }>(),
+    {
+      placement: 'auto',
+      offset: () => [0, 0],
+      closeDelay: 200,
+    }
+  )
   const slots = useSlots()
   let button = $ref<HTMLElement | null>()
   let tooltip = $ref<HTMLElement | null>()
@@ -33,7 +43,7 @@
     nextTick(() => {
       const instance = createPopper(button!, tooltip!, {
         placement: props.placement,
-        modifiers: [{ name: 'offset', options: { offset: [0, 0] } }],
+        modifiers: [{ name: 'offset', options: { offset: props.offset } }],
       })
 
       function show() {
@@ -58,7 +68,7 @@
         clearTimeout(_timer)
         _timer = setTimeout(() => {
           hide()
-        }, 200)
+        }, props.closeDelay)
       }
 
       button?.addEventListener('mouseenter', onMouseenter)

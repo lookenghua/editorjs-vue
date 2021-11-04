@@ -145,3 +145,5 @@ export interface CodeBlock extends BaseBlock {
     language: string
   }
 }
+
+export type MethodType = 'insert' | 'directive'

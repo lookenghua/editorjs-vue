@@ -193,6 +193,7 @@
 </script>
 
 <template>
+  <h1>Demo</h1>
   <Editor
     :data="data"
     :upload-attaches="handleUploadAttaches"

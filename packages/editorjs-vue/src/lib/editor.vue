@@ -96,49 +96,51 @@
   }
 
   // 点击工具栏
-  function handleMethod(method: string) {
+  function handleMethod({ methodType, method }: { methodType: MethodType; method: string }) {
     const count = editorData.blocks.length | 0
     const currentBlockIndex = editor?.blocks.getCurrentBlockIndex()
     const insertIndex = currentBlockIndex < 0 ? (count > 0 ? count : 0) : currentBlockIndex
-    if (method === 'quote') {
-      // 引用
-      editor?.blocks.insert('quote', { text: '', caption: '' }, null, insertIndex, true)
-    } else if (method === 'separator') {
-      // 分割线
-      editor?.blocks.insert('delimiter', {}, null, insertIndex, false)
-    } else if (method === 'code') {
-      // 代码
-      editor?.blocks.insert('code', { code: '', language: 'javascript' }, null, insertIndex, true)
-    } else if (method === 'image') {
-      // 图片
-      editor?.blocks.insert('image', {}, null, insertIndex, true)
-    } else if (method === 'attachment') {
-      // 附件
-      editor?.blocks.insert('attaches', {}, null, insertIndex, true)
-    } else if (method === 'unordered-list') {
-      // 无序列表
-      editor?.blocks.insert('list', { style: 'unordered', items: [] }, null, insertIndex, true)
-    } else if (method === 'ordered-list') {
-      // 有序列表
-      editor?.blocks.insert('list', { style: 'ordered', items: [] }, null, insertIndex, true)
-    } else if (method === 'todo') {
-      // 待办
-      editor?.blocks.insert(
-        'checklist',
-        { items: [{ text: '', checked: '' }] },
-        null,
-        insertIndex,
-        true
-      )
-    } else if (method === 'table') {
-      // 表格
-      editor?.blocks.insert('table', { items: [] }, null, insertIndex, true)
-    } else if (method.startsWith('heading')) {
-      const level = parseInt(method.replace('heading', ''), 8)
-      editor?.blocks.insert('header', { text: '请输入标题', level }, null, insertIndex, true)
+    if (methodType === 'insert') {
+      if (method === 'quote') {
+        // 引用
+        editor?.blocks.insert('quote', { text: '', caption: '' }, null, insertIndex, true)
+      } else if (method === 'separator') {
+        // 分割线
+        editor?.blocks.insert('delimiter', {}, null, insertIndex, false)
+      } else if (method === 'code') {
+        // 代码
+        editor?.blocks.insert('code', { code: '', language: 'javascript' }, null, insertIndex, true)
+      } else if (method === 'image') {
+        // 图片
+        editor?.blocks.insert('image', {}, null, insertIndex, true)
+      } else if (method === 'attachment') {
+        // 附件
+        editor?.blocks.insert('attaches', {}, null, insertIndex, true)
+      } else if (method === 'unordered-list') {
+        // 无序列表
+        editor?.blocks.insert('list', { style: 'unordered', items: [] }, null, insertIndex, true)
+      } else if (method === 'ordered-list') {
+        // 有序列表
+        editor?.blocks.insert('list', { style: 'ordered', items: [] }, null, insertIndex, true)
+      } else if (method === 'todo') {
+        // 待办
+        editor?.blocks.insert(
+          'checklist',
+          { items: [{ text: '', checked: '' }] },
+          null,
+          insertIndex,
+          true
+        )
+      } else if (method === 'table') {
+        // 表格
+        editor?.blocks.insert('table', { items: [] }, null, insertIndex, true)
+      } else if (method.startsWith('heading')) {
+        const level = parseInt(method.replace('heading', ''), 8)
+        editor?.blocks.insert('header', { text: '请输入标题', level }, null, insertIndex, true)
+      }
+      const blocks = editorRef?.querySelectorAll('.ce-block')!
+      blocks[insertIndex - 1].scrollIntoView()
     }
-    const blocks = editorRef?.querySelectorAll('.ce-block')!
-    blocks[insertIndex - 1].scrollIntoView()
   }
 
   onMounted(() => {
