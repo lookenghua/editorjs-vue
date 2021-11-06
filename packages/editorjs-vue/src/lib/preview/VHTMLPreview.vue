@@ -77,6 +77,7 @@
   import Warning from './blocks/warning.vue'
 
   const props = withDefaults(defineProps<{ data: EditorData }>(), {})
+
   const blocks = computed<Block[]>(() => props.data.blocks || [])
 </script>
 

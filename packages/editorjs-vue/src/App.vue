@@ -195,7 +195,7 @@
 <template>
   <h1>Demo</h1>
   <Editor
-    :data="data"
+    v-model:value="data"
     :upload-attaches="handleUploadAttaches"
     :upload-images="handleUploadImages"
   />

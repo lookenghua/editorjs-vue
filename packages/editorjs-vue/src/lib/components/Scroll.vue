@@ -1,19 +1,16 @@
 <template>
-  <div class="outer-container">
+  <div ref="wrapper" class="wrapper">
     <slot></slot>
   </div>
 </template>
 
-<script setup></script>
+<script setup lang="ts"></script>
 
 <style scoped lang="scss">
-  .outer-container {
+  .wrapper {
     width: 100%;
     height: 100%;
-  }
-
-  .outer-container {
-    overflow: auto;
+    overflow-y: auto;
     -ms-overflow-style: none;
     &::-webkit-scrollbar {
       display: none;
