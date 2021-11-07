@@ -89,17 +89,22 @@
     <Popper placement="top" :offset="[0, 8]" :close-delay="0" title="帮助">
       <div class="toolbar-icon" @click="callMethod('directive', 'help')" v-html="icons.help"></div>
     </Popper>
-    <Popper placement="top" :offset="[0, 8]" :close-delay="0" title="仅编辑区">
+    <Popper
+      placement="top"
+      :offset="[0, 8]"
+      :close-delay="0"
+      :title="isDefaultLayout ? '仅编辑区' : '恢复默认'"
+    >
       <div
-        class="toolbar-icon"
-        @click="callMethod('directive', 'only-left')"
+        :class="['toolbar-icon', areaShowType === 'editor' ? 'icon-active' : '']"
+        @click="callMethod('directive', isDefaultLayout ? 'only-editor' : 'default-layout')"
         v-html="icons.showLeft"
       ></div>
     </Popper>
     <Popper placement="top" :offset="[0, 8]" :close-delay="0" title="仅预览区">
       <div
         class="toolbar-icon"
-        @click="callMethod('directive', 'only-right')"
+        @click="callMethod('directive', isDefaultLayout ? 'only-preview' : 'default-layout')"
         v-html="icons.showRight"
       ></div>
     </Popper>
@@ -120,15 +125,25 @@
   })
 </script>
 <script setup lang="ts">
+  import { computed } from 'vue'
   import { MethodType } from '../type'
   import icons from './svg-icons'
   import Popper from './Popper.vue'
 
   const emit = defineEmits(['method'])
+  let areaShowType = $ref('default-layout')
 
+  const isDefaultLayout = computed<boolean>(() => {
+    return areaShowType === 'default-layout'
+  })
   // 点击方法
   function callMethod(methodType: MethodType, method: string) {
     emit('method', { methodType, method })
+    if (methodType === 'directive') {
+      if (method === 'only-editor') {
+        areaShowType = 'editor'
+      }
+    }
   }
 
   // 点击标题
@@ -160,6 +175,11 @@
         background-color: #e1e4e8;
       }
       ::v-deep(svg) {
+      }
+    }
+    .icon-active {
+      ::v-deep(svg) {
+        color: #0366d6;
       }
     }
   }

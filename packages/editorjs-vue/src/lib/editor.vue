@@ -2,12 +2,12 @@
   <div class="editor-area">
     <Toolbar @method="handleMethod" />
     <div class="body">
-      <div class="editor-body">
+      <div v-show="state.showEditor" class="editor-body">
         <Scroll ref="leftScrollRef" @scroll="handleEditorAreaScroll">
           <div ref="editorRef" class="editor"></div>
         </Scroll>
       </div>
-      <div class="editor-preview">
+      <div v-show="state.showPreview" class="editor-preview">
         <Scroll ref="rightScrollRef" @scroll="handlePreviewAreaScroll">
           <VHTMLPreview ref="previewRef" :data="editorData" />
         </Scroll>
@@ -89,6 +89,8 @@
   let _timer2: ReturnType<typeof setTimeout>
   const state = reactive({
     showContent: false,
+    showEditor: true,
+    showPreview: true,
   })
   watch(
     () => props.value,
@@ -169,6 +171,15 @@
     } else if (methodType === 'directive') {
       if (method === 'contents') {
         state.showContent = true
+      } else if (method === 'only-editor') {
+        state.showEditor = true
+        state.showPreview = false
+      } else if (method === 'only-preview') {
+        state.showEditor = false
+        state.showPreview = true
+      } else if (method === 'default-layout') {
+        state.showEditor = true
+        state.showPreview = true
       }
     }
   }
