@@ -4,6 +4,7 @@ export default [
   {
     url: '/api/upload/file',
     method: 'post',
+    timeout: 3000,
     response: () => {
       return {
         success: 1,
