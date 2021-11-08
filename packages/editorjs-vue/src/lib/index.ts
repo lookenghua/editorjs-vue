@@ -1,4 +1,5 @@
 import './config/tools/attaches.scss'
+import './preview/blocks/css/prism.css'
 import './preview/style/base.scss'
 import { App } from 'vue'
 import Editor from './editor.vue'

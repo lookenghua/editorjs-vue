@@ -9,7 +9,6 @@
   export default defineComponent({ name: 'CodeBlock' })
 </script>
 <script setup lang="ts">
-  import './css/prism.css'
   import { onMounted, watchEffect } from 'vue'
   import Prism from 'prismjs'
 
