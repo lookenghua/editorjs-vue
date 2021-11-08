@@ -1,5 +1,5 @@
 <template>
-  <div class="toolbar">
+  <div ref="toolbar" class="toolbar">
     <Popper placement="bottom-start">
       <div class="toolbar-icon" v-html="icons.heading"></div>
       <template #tooltip>
@@ -79,11 +79,16 @@
       <div class="toolbar-icon" @click="callMethod('insert', 'table')" v-html="icons.table"></div>
     </Popper>
     <div style="flex: 1"></div>
-    <Popper placement="top" :offset="[0, 8]" :close-delay="0" title="目录">
+    <Popper
+      placement="top"
+      :offset="[0, 8]"
+      :close-delay="0"
+      :title="!showContents ? '目录' : '关闭目录'"
+    >
       <div
         class="toolbar-icon"
-        @click="callMethod('directive', 'contents')"
-        v-html="icons.contents"
+        @click="callMethod('directive', !showContents ? 'contents' : 'hidden-contents')"
+        v-html="!showContents ? icons.contents : icons.contentsActive"
       ></div>
     </Popper>
     <Popper placement="top" :offset="[0, 8]" :close-delay="0" title="帮助">
@@ -93,26 +98,43 @@
       placement="top"
       :offset="[0, 8]"
       :close-delay="0"
-      :title="isDefaultLayout ? '仅编辑区' : '恢复默认'"
+      :title="isEditorLayout ? '恢复默认' : '仅编辑区'"
     >
       <div
-        :class="['toolbar-icon', areaShowType === 'editor' ? 'icon-active' : '']"
+        class="toolbar-icon"
         @click="callMethod('directive', isDefaultLayout ? 'only-editor' : 'default-layout')"
-        v-html="icons.showLeft"
+        v-html="isEditorLayout ? icons.showLeftActive : icons.showLeft"
       ></div>
     </Popper>
-    <Popper placement="top" :offset="[0, 8]" :close-delay="0" title="仅预览区">
+    <Popper
+      placement="top"
+      :offset="[0, 8]"
+      :close-delay="0"
+      :title="isPreviewLayout ? '恢复默认' : '仅预览区'"
+    >
       <div
         class="toolbar-icon"
         @click="callMethod('directive', isDefaultLayout ? 'only-preview' : 'default-layout')"
-        v-html="icons.showRight"
+        v-html="isPreviewLayout ? icons.showRightActive : icons.showRight"
       ></div>
     </Popper>
-    <Popper placement="top" :offset="[0, 8]" :close-delay="0" title="全屏">
+    <Popper
+      placement="top"
+      :offset="[0, 8]"
+      :close-delay="0"
+      :title="!isFullscreen ? '全屏' : '取消全屏'"
+    >
       <div
         class="toolbar-icon"
-        @click="callMethod('directive', 'fullscreen')"
-        v-html="icons.fullscreen"
+        @click="callMethod('directive', isFullscreen ? 'exitFullscreen' : 'fullscreen')"
+        v-html="isFullscreen ? icons.exitFullscreen : icons.fullscreen"
+      ></div>
+    </Popper>
+    <Popper placement="top" :offset="[0, 8]" :close-delay="0" title="源代码">
+      <div
+        class="toolbar-icon"
+        @click="callMethod('directive', 'github')"
+        v-html="icons.github"
       ></div>
     </Popper>
   </div>
@@ -127,29 +149,57 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { MethodType } from '../type'
+  import { useFullscreen } from '@vueuse/core'
   import icons from './svg-icons'
   import Popper from './Popper.vue'
 
   const emit = defineEmits(['method'])
-  let areaShowType = $ref('default-layout')
 
+  let areaShowType = $ref('default-layout')
+  let toolbar = $ref<HTMLElement | null>(null)
+  let showContents = $ref(false)
   const isDefaultLayout = computed<boolean>(() => {
     return areaShowType === 'default-layout'
   })
+  const isEditorLayout = computed<boolean>(() => areaShowType === 'editor')
+  const isPreviewLayout = computed<boolean>(() => areaShowType === 'preview')
+  const { isFullscreen, enter, exit } = useFullscreen(toolbar?.parentElement)
   // 点击方法
   function callMethod(methodType: MethodType, method: string) {
     emit('method', { methodType, method })
     if (methodType === 'directive') {
       if (method === 'only-editor') {
         areaShowType = 'editor'
+      } else if (method === 'default-layout') {
+        areaShowType = 'default-layout'
+      } else if (method === 'only-preview') {
+        areaShowType = 'preview'
+      } else if (method === 'fullscreen') {
+        enter()
+      } else if (method === 'exitFullscreen') {
+        exit()
+      } else if (method === 'github') {
+        window.open('https://github.com/lookenghua/editorjs-vue', '__blank')
+      } else if (method === 'contents') {
+        showContents = true
+      } else if (method === 'hidden-contents') {
+        showContents = false
       }
     }
+  }
+  // 关闭目录
+  function hiddenContents() {
+    showContents = false
   }
 
   // 点击标题
   function handleClickHeading(level: number) {
     emit('method', { methodType: 'insert', method: 'heading' + level })
   }
+
+  defineExpose({
+    hiddenContents,
+  })
 </script>
 
 <style scoped lang="scss">

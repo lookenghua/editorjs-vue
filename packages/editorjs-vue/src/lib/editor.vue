@@ -1,6 +1,6 @@
 <template>
   <div class="editor-area">
-    <Toolbar @method="handleMethod" />
+    <Toolbar ref="toolbarRef" @method="handleMethod" />
     <div class="body">
       <div v-show="state.showEditor" class="editor-body">
         <Scroll ref="leftScrollRef" @scroll="handleEditorAreaScroll">
@@ -31,9 +31,9 @@
   export default defineComponent({ name: 'Editor' })
 </script>
 <script setup lang="ts">
-  import './config/tools/attaches.scss'
   import { createApp, onMounted, reactive, watch } from 'vue'
   import { EditorData, MethodType, uploadAttachesFunc, UploadImagesFunc } from './type'
+  import { LogUtil } from './logger'
   import AttachesTool from '@editorjs/attaches'
   import Checklist from '@editorjs/checklist'
   import Code from 'editorjs-code'
@@ -76,6 +76,9 @@
   let previewRef = $ref<InstanceType<typeof VHTMLPreview> | null>(null)
   let leftScrollRef = $ref<InstanceType<typeof Scroll> | null>(null)
   let rightScrollRef = $ref<InstanceType<typeof Scroll> | null>(null)
+  let toolbarRef = $ref<(InstanceType<typeof Toolbar> & { hiddenContents: () => void }) | null>(
+    null
+  )
   let isSyncScroll = $ref(true)
   let editor: EditorJS
   let editorData = $ref<OutputData>({ version: '2.22.2', time: new Date().getTime(), blocks: [] })
@@ -92,6 +95,7 @@
     showEditor: true,
     showPreview: true,
   })
+
   watch(
     () => props.value,
     (val) => {
@@ -111,7 +115,6 @@
   // 保存数据
   function saveData() {
     editor.save().then((data) => {
-      console.log(JSON.stringify(data), data)
       editorData = data
     })
   }
@@ -167,10 +170,12 @@
         editor?.blocks.insert('header', { text: '请输入标题', level }, null, insertIndex, true)
       }
       const blocks = editorRef?.querySelectorAll('.ce-block')!
-      blocks[insertIndex - 1].scrollIntoView()
+      blocks[insertIndex - 1]?.scrollIntoView()
     } else if (methodType === 'directive') {
       if (method === 'contents') {
         state.showContent = true
+      } else if (method === 'hidden-contents') {
+        state.showContent = false
       } else if (method === 'only-editor') {
         state.showEditor = true
         state.showPreview = false
@@ -196,11 +201,11 @@
       }
       isEditorScroll = true
       const el = e.target as HTMLElement
-      console.log(`编辑区域滚动距离:${el.scrollTop}`)
+      LogUtil.i(`编辑区域滚动距离:${el.scrollTop}`)
       const index = getScrollIndex(el.scrollTop, editorChildrenHeight)
-      console.log(`编辑区域滚动元素序号:${index}`)
+      LogUtil.i(`编辑区域滚动元素序号:${index}`)
       const scrollTop = getPreviewScrollTop(index, el.scrollTop)
-      console.log(`预览区域应滚动${scrollTop}`)
+      LogUtil.i(`预览区域应滚动${scrollTop}`)
       rightScrollRef!.$el.scrollTop = scrollTop
       _timer1 = setTimeout(() => {
         isEditorScroll = false
@@ -220,11 +225,11 @@
       }
       isPreviewScroll = true
       const el = e.target as HTMLElement
-      console.log(`预览区域滚动距离:${el.scrollTop}`)
+      LogUtil.i(`预览区域滚动距离:${el.scrollTop}`)
       const index = getScrollIndex(el.scrollTop, previewChildrenHeight)
-      console.log(`预览区域滚动元素序号:${index}`)
+      LogUtil.i(`预览区域滚动元素序号:${index}`)
       const scrollTop = getEditorScrollTop(index, el.scrollTop)
-      console.log(`编辑区域应滚动${scrollTop}`)
+      LogUtil.i(`编辑区域应滚动${scrollTop}`)
       leftScrollRef!.$el.scrollTop = scrollTop
       _timer2 = setTimeout(() => {
         isPreviewScroll = false
@@ -234,14 +239,14 @@
 
   // 监听编辑器区变化
   function handleEditorAreaChange(mutations: MutationRecord[]) {
-    console.log(`编辑区域高度变化`)
+    LogUtil.i(`编辑区域高度变化`)
     const children = editorRef?.querySelector('.codex-editor__redactor')?.children
     editorChildrenHeight = getChildrenHeight(children)
   }
 
   // 监听预览区变化
   function handlePreviewAreaChange(mutations: MutationRecord[]) {
-    console.log(`预览区域高度变化`)
+    LogUtil.i(`预览区域高度变化`)
     const children = previewRef!.$el.children
     previewChildrenHeight = getChildrenHeight(children)
   }
@@ -279,7 +284,7 @@
       scrollTop += previewChildrenHeight[i]
       scrollTop1 += editorChildrenHeight[i]
     }
-    console.log(scrollTop)
+
     scrollTop +=
       ((currentScrollTop - scrollTop1) / editorChildrenHeight[scrollIndex]) *
       previewChildrenHeight[scrollIndex]
@@ -294,7 +299,7 @@
       scrollTop += editorChildrenHeight[i]
       scrollTop1 += previewChildrenHeight[i]
     }
-    console.log(scrollTop)
+
     scrollTop +=
       ((currentScrollTop - scrollTop1) / previewChildrenHeight[scrollIndex]) *
       editorChildrenHeight[scrollIndex]
@@ -310,6 +315,7 @@
   // 关闭目录
   function handleCloseContents() {
     state.showContent = false
+    toolbarRef?.hiddenContents()
   }
   onMounted(() => {
     editor = new EditorJS({
@@ -388,10 +394,16 @@
             errorMessage: '文件上传失败',
             uploader: {
               async uploadByFile(file: File) {
-                setTimeout(() => {
-                  saveData()
-                }, 300)
-                return props.uploadAttaches(file)
+                const res = await props.uploadAttaches(file)
+                return {
+                  success: res.success,
+                  file: {
+                    title: file.name,
+                    name: file.name,
+                    size: file.size,
+                    ...res.file,
+                  },
+                }
               },
             },
           },
