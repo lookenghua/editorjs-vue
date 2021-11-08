@@ -1,5 +1,5 @@
 <template>
-  <ul class="footnotes" style="border-top: 1px solid #ccc">
+  <ul v-if="list.length > 0" class="footnotes" style="border-top: 1px solid #ccc">
     <li v-for="(item, i) in list" :id="item.id" :key="item.id" style="cursor: pointer"
       >{{ i + 1 }}.{{ item.content }}</li
     >
