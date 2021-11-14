@@ -130,7 +130,7 @@
   function handleMethod({ methodType, method }: { methodType: MethodType; method: string }) {
     const count = editorData.blocks.length | 0
     const currentBlockIndex = editor?.blocks.getCurrentBlockIndex()
-    const insertIndex = currentBlockIndex < 0 ? (count > 0 ? count : 0) : currentBlockIndex
+    const insertIndex = currentBlockIndex < 0 ? (count > 0 ? count : 0) : currentBlockIndex + 1
     if (methodType === 'insert') {
       if (method === 'quote') {
         // 引用
@@ -170,7 +170,11 @@
         editor?.blocks.insert('header', { text: '请输入标题', level }, null, insertIndex, true)
       }
       const blocks = editorRef?.querySelectorAll('.ce-block')!
-      blocks[insertIndex - 1]?.scrollIntoView()
+      const ele: HTMLElement = blocks[insertIndex - 1] as HTMLElement
+      console.log(ele.offsetTop)
+      if (leftScrollRef?.$el) {
+        leftScrollRef!.$el!.scrollTop = ele.offsetTop
+      }
     } else if (methodType === 'directive') {
       if (method === 'contents') {
         state.showContent = true
