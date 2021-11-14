@@ -47,7 +47,6 @@
       })
 
       function show() {
-        console.log('show')
         tooltip?.setAttribute('data-show', '')
         instance.update() // correctly position
       }
