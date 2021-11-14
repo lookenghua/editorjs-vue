@@ -1,5 +1,5 @@
 import './config/tools/attaches.scss'
-import './preview/blocks/css/prism.css'
+import './preview/blocks/css/prism.scss'
 import './preview/style/base.scss'
 import { App } from 'vue'
 import Editor from './editor.vue'
@@ -9,6 +9,6 @@ const install = (app: App, config: { editorName: string; viewerName: string }) =
   app.component(config?.editorName || 'EditorVue', Editor)
   app.component(config?.viewerName || 'EditorViewer', Viewer)
 }
-export { Editor, Viewer }
-
+export { Editor }
+export { Viewer }
 export default { install }
